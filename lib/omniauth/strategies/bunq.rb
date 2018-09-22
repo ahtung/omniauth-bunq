@@ -23,6 +23,12 @@ module OmniAuth
         end
       end
 
+      def token_params
+        super.tap do |params|
+          params[:grant_type] = "authorization_code"
+        end
+      end
+
       uid do
         puts options
         request.params[options.uid_field.to_s]
