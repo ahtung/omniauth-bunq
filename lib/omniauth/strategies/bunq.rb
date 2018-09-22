@@ -23,51 +23,15 @@ module OmniAuth
         end
       end
 
-      uid { raw_info['id'].to_s }
+      uid do
+        request.params[options.uid_field.to_s]
+      end
 
       info do
-        {
-          'nickname' => raw_info['login'],
-          'email' => email,
-          'name' => raw_info['name'],
-          'image' => raw_info['avatar_url'],
-          'urls' => {
-            'GitHub' => raw_info['html_url'],
-            'Blog' => raw_info['blog'],
-          },
-        }
-      end
-
-      extra do
-        {:raw_info => raw_info, :all_emails => emails}
-      end
-
-      def raw_info
-        access_token.options[:mode] = :query
-        @raw_info ||= access_token.get('user').parsed
-      end
-
-      def email
-        (email_access_allowed?) ? primary_email : raw_info['email']
-      end
-
-      def primary_email
-        primary = emails.find{ |i| i['primary'] && i['verified'] }
-        primary && primary['email'] || nil
-      end
-
-      # The new /user/emails API - http://developer.github.com/v3/users/emails/#future-response
-      def emails
-        return [] unless email_access_allowed?
-        access_token.options[:mode] = :query
-        @emails ||= access_token.get('user/emails', :headers => { 'Accept' => 'application/vnd.github.v3' }).parsed
-      end
-
-      def email_access_allowed?
-        return false unless options['scope']
-        email_scopes = ['user', 'user:email']
-        scopes = options['scope'].split(',')
-        (scopes & email_scopes).any?
+        options.fields.inject({}) do |hash, field|
+          hash[field] = request.params[field.to_s]
+          hash
+        end
       end
 
       def callback_url
