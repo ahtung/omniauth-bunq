@@ -30,15 +30,15 @@ describe OmniAuth::Strategies::Bunq do
 
   context 'client options' do
     it 'should have correct site' do
-      expect(subject.options.client_options.site).to eq('https://api-sandbox.rabobank.nl')
+      expect(subject.options.client_options.site).to eq('https://oauth.bunq.com/auth')
     end
 
     it 'should have correct authorize url' do
-      expect(subject.options.client_options.authorize_url).to eq('https://api-sandbox.rabobank.nl/openapi/sandbox/oauth2/authorize')
+      expect(subject.options.client_options.authorize_url).to eq('https://oauth.bunq.com/auth')
     end
 
     it 'should have correct token url' do
-      expect(subject.options.client_options.token_url).to eq('https://api-sandbox.rabobank.nl/openapi/sandbox/oauth2/token')
+      expect(subject.options.client_options.token_url).to eq('https://api.oauth.bunq.com/v1/token')
     end
 
     describe 'should be overrideable' do

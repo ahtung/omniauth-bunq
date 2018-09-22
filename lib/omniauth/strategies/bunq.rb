@@ -4,9 +4,9 @@ module OmniAuth
   module Strategies
     class Bunq < OmniAuth::Strategies::OAuth2
       option :client_options, {
-        :site => 'https://api-sandbox.rabobank.nl',
-        :authorize_url => 'https://api-sandbox.rabobank.nl/openapi/sandbox/oauth2/authorize',
-        :token_url => 'https://api-sandbox.rabobank.nl/openapi/sandbox/oauth2/token'
+        :site => 'https://oauth.bunq.com/auth',
+        :authorize_url => 'https://oauth.bunq.com/auth',
+        :token_url => 'https://api.oauth.bunq.com/v1/token'
       }
 
       def request_phase
