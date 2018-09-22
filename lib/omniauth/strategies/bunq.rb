@@ -24,6 +24,7 @@ module OmniAuth
       end
 
       uid do
+        puts options
         request.params[options.uid_field.to_s]
       end
 
